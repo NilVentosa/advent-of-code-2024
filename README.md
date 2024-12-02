@@ -8,5 +8,6 @@ Keep judgement to the bare minimum 😅
 ## Progress
 
 | Day | Part 1 | Part 2 |
-| --- |--------|--------|
+|-----|--------|--------|
 | 1   | 🌟     | 🌟     |
+| 2   | 🌟     | 🌟     |
