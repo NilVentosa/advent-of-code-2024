@@ -3,7 +3,7 @@ package xyz.ventosa;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,5 +23,13 @@ public class Utils {
             throw new RuntimeException("file not found");
         }
         return input;
+    }
+
+    public static List<List<String>> getListOfList(List<String> input) {
+        List<List<String>> split = new ArrayList<>();
+        for (String s: input) {
+            split.add(Arrays.asList(s.split("")));
+        }
+        return split;
     }
 }
