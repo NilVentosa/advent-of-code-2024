@@ -7,9 +7,10 @@ Keep judgement to the bare minimum 😅
 
 ## Progress
 
-| Day | Part 1 | Part 2 |
-|--|--------|--------|
+| Day                       | Part 1 | Part 2 |
+|---------------------------|--------|--------|
 | Day 1: Historian Hysteria | 🌟     | 🌟     |
-| Day 2: Red-Nosed Reports | 🌟     | 🌟     |
-| Day 3: Mull It Over | 🌟     | 🌟     |
-| Day 4: Ceres Search | 🌟     | 🌟     |
+| Day 2: Red-Nosed Reports  | 🌟     | 🌟     |
+| Day 3: Mull It Over       | 🌟     | 🌟     |
+| Day 4: Ceres Search       | 🌟     | 🌟     |
+| Day 5: Print Queue        | 🌟     | 🌟     |
