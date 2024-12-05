@@ -35,8 +35,7 @@ public class Day5 extends Day  {
         for (Update update: updates) {
             var satisfiesRules = true;
             for (Rule rule: rules) {
-                if (update.pages.contains(rule.first) && update.pages.contains(rule.second) &&
-                        update.pages.indexOf(rule.first) >= update.pages.indexOf(rule.second)) {
+                if (update.doesNotSatisfyRule(rule)) {
                     satisfiesRules = false;
                 }
             }
@@ -53,8 +52,7 @@ public class Day5 extends Day  {
         for (Update update: updates) {
             var wasFixed = false;
             for (Rule rule: rules) {
-                if (update.pages.contains(rule.first) && update.pages.contains(rule.second) &&
-                        update.pages.indexOf(rule.first) > update.pages.indexOf(rule.second)) {
+                if (update.doesNotSatisfyRule(rule)) {
                     update = fixIt(update);
                     wasFixed = true;
                 }
@@ -70,8 +68,7 @@ public class Day5 extends Day  {
 
     Update fixIt(Update update) {
         for (Rule rule: rules) {
-            if (update.pages.contains(rule.first) && update.pages.contains(rule.second) &&
-                    update.pages.indexOf(rule.first) > update.pages.indexOf(rule.second)) {
+            if (update.doesNotSatisfyRule(rule)) {
                 update = update.changePlaces(update.pages.indexOf(rule.first), update.pages.indexOf(rule.second));
                 return fixIt(update);
             }
@@ -89,6 +86,10 @@ public class Day5 extends Day  {
 
         int getMiddle() {
             return pages.get(pages.size() / 2);
+        }
+
+        boolean doesNotSatisfyRule(Rule rule) {
+            return pages.contains(rule.first) && pages.contains(rule.second) && pages.indexOf(rule.first) >= pages.indexOf(rule.second);
         }
     }
 }
