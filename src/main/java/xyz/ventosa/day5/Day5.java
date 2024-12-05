@@ -24,7 +24,7 @@ public class Day5 extends Day  {
             } else {
                 String[] parts = line.split(",");
                 List<Integer> pages = Arrays.stream(parts).map(Integer::parseInt).toList();
-                updates.add(new Update(pages, pages.get(pages.size() / 2)));
+                updates.add(new Update(pages));
             }
         }
     }
@@ -41,7 +41,7 @@ public class Day5 extends Day  {
                 }
             }
             if (satisfiesRules) {
-                result += update.middlePage;
+                result += update.getMiddle();
             }
         }
         return result;
@@ -60,7 +60,7 @@ public class Day5 extends Day  {
                 }
             }
             if (wasFixed) {
-                result += update.middlePage;
+                result += update.getMiddle();
             }
         }
         return result;
@@ -79,12 +79,16 @@ public class Day5 extends Day  {
         return update;
     }
 
-    record Update(List<Integer> pages, int middlePage) {
+    record Update(List<Integer> pages) {
         Update changePlaces(int firstIndex, int secondIndex) {
             List<Integer> newPages = new ArrayList<>(pages);
             newPages.set(firstIndex, pages.get(secondIndex));
             newPages.set(secondIndex, pages.get(firstIndex));
-            return new Update(newPages, newPages.get(newPages.size() / 2));
+            return new Update(newPages);
+        }
+
+        int getMiddle() {
+            return pages.get(pages.size() / 2);
         }
     }
 }
