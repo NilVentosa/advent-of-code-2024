@@ -48,7 +48,36 @@ public class Day6 extends Day  {
 
     @Override
     public Object part2() {
-        return null;
+        int result = 0;
+        for (int y = 0; y < map.size(); y++) {
+            for (int x = 0; x < map.getFirst().size(); x++) {
+                if (!map.get(y).get(x).equals(GUARD)) {
+                    var currentDirection = 0;
+                    var currentMap = addStuffToMap(new Position(x, y), map);
+                    var currentPosition = initialGuardPosition;
+                    var positions = new HashSet<PositionDirection>();
+                    while (currentPosition.isInMap(currentMap)) {
+                        var nextPosition = currentPosition.move(directions.get(currentDirection));
+                        if (!nextPosition.isInMap(currentMap)) {
+                            break;
+                        }
+                        while (currentMap.get(nextPosition.y).get(nextPosition.x).equals(STUFF)) {
+                            currentDirection = nextDirection(currentDirection);
+                            nextPosition = currentPosition.move(directions.get(currentDirection));
+                            if (!nextPosition.isInMap(currentMap)) {
+                                break;
+                            }
+                        }
+                        if (!positions.add(new PositionDirection(currentPosition, currentDirection))) {
+                            result++;
+                            break;
+                        }
+                        currentPosition = currentPosition.move(directions.get(currentDirection));
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     record Direction(int x, int y) {}
@@ -62,8 +91,10 @@ public class Day6 extends Day  {
         }
     }
 
+    record PositionDirection(Position position, int direction) { }
+
     static int nextDirection(int currentDirection) {
-        return currentDirection + 1 == directions.size() ? 0 : currentDirection + 1;
+        return currentDirection + 1 >= directions.size() ? 0 : currentDirection + 1;
     }
 
     static List<List<String>> addStuffToMap(Position pos, List<List<String>> map) {
