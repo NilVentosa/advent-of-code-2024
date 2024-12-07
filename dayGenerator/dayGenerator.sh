@@ -32,3 +32,5 @@ sed "s/\${DayNumber}/$DAY_NUMBER/g" "$TEST_FILE" > "$DEST_DIR_TEST/Day${DAY_NUMB
 sed "s/\${DayNumber}/$DAY_NUMBER/g" "$SOLUTION_FILE" > "$DEST_DIR/Day${DAY_NUMBER}.java"
 touch "$RESOURCES_DIR/input"
 touch "$RESOURCES_DIR/test"
+
+echo "| Day $DAY_NUMBER:     |      |     |" >> README.md
