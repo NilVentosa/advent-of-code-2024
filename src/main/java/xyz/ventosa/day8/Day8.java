@@ -13,6 +13,8 @@ import java.util.Set;
 public class Day8 extends Day  {
     List<List<String>> map = Utils.getListOfList(input);
     Map<String, List<Point>> frequencies = new HashMap<>();
+    Set<Point> antennasPart1 = new HashSet<>();
+    Set<Point> antennasPart2 = new HashSet<>();
 
     public Day8(String inputFile) {
         super(inputFile);
@@ -25,52 +27,38 @@ public class Day8 extends Day  {
                 }
             }
         }
-    }
-
-    @Override
-    public Object part1() {
         var differentFrequencies = frequencies.keySet();
-        Set<Point> antennas = new HashSet<>();
         for (String frequency : differentFrequencies) {
             for (int i = 0; i < frequencies.get(frequency).size(); i++) {
                 for (int j = 0; j < frequencies.get(frequency).size(); j++) {
                     if (i != j) {
                         var f1 = frequencies.get(frequency).get(i);
                         var f2 = frequencies.get(frequency).get(j);
-                        var dX = f1.x - f2.x;
-                        var dY = f1.y - f2.y;
-                        antennas.add(new Point(f2.x - dX, f2.y - dY));
-                    }
-                }
-            }
-        }
-        antennas.removeIf(point -> !point.isInMap(map));
-        return antennas.size();
-    }
-
-    @Override
-    public Object part2() {
-        var differentFrequencies = frequencies.keySet();
-        Set<Point> antennas = new HashSet<>();
-        for (String frequency : differentFrequencies) {
-            for (int i = 0; i < frequencies.get(frequency).size(); i++) {
-                for (int j = 0; j < frequencies.get(frequency).size(); j++) {
-                    if (i != j) {
-                        var f1 = frequencies.get(frequency).get(i);
-                        var f2 = frequencies.get(frequency).get(j);
-                        antennas.add(f1);
+                        antennasPart2.add(f1);
                         var dX = f1.x - f2.x;
                         var dY = f1.y - f2.y;
                         var newAntenna = new Point(f2.x - dX, f2.y - dY);
+                        if(newAntenna.isInMap(map)) {
+                            antennasPart1.add(newAntenna);
+                        }
                         while (newAntenna.isInMap(map)) {
-                            antennas.add(newAntenna);
+                            antennasPart2.add(newAntenna);
                             newAntenna = new Point(newAntenna.x - dX, newAntenna.y - dY);
                         }
                     }
                 }
             }
         }
-        return antennas.size();
+    }
+
+    @Override
+    public Object part1() {
+        return antennasPart1.size();
+    }
+
+    @Override
+    public Object part2() {
+        return antennasPart2.size();
     }
 
     record Point(int x, int y) {
