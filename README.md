@@ -24,3 +24,4 @@ This will create the java class file for the day from a template, the test class
 | Day 6: Guard Gallivant | 🌟     | 🌟    |
 | Day 7: Bridge Repair    | 🌟     | 🌟    |
 | Day 8: Resonant Collinearity    |     🌟   |  🌟     |
+| Day 9: Disk Fragmenter    |  🌟    |     |
