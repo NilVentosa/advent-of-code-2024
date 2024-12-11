@@ -10,8 +10,8 @@ class Day9Test {
 
     private static final Object SOLUTION_PART1_TEST = new BigInteger("1928");
     private static final Object SOLUTION_PART1 = new BigInteger("6353658451014");
-    private static final Object SOLUTION_PART2_TEST = 2858;
-    private static final Object SOLUTION_PART2 = null;
+    private static final Object SOLUTION_PART2_TEST = new BigInteger("2858");
+    private static final Object SOLUTION_PART2 = new BigInteger("6382582136592");
 
     @Test
     void part1test() {

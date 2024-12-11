@@ -9,25 +9,31 @@ import java.util.List;
 
 public class Day9 extends Day  {
     List<Integer> splitInput;
+    List<Integer> disk;
 
     public Day9(String inputFile) {
         super(inputFile);
         splitInput = Arrays.stream(input.getFirst().split("")).map(Integer::parseInt).toList();
+        disk = new ArrayList<>();
+        for (int i = 0; i*2 < splitInput.size(); i++) {
+            for (int j = 0; j < splitInput.get(i*2); j++) {
+                disk.add(i);
+            }
+            if (i+i+1 < splitInput.size()) {
+                for (int j = 0; j < splitInput.get(i+i+1); j++) {
+                    disk.add(-1);
+                }
+            }
+        }
     }
 
     @Override
     public Object part1() {
-        List<Integer> thing = new ArrayList<>();
+        List<Integer> thing = new ArrayList<>(disk);
         int minuses = 0;
-        for (int i = 0; i*2 < splitInput.size(); i++) {
-            for (int j = 0; j < splitInput.get(i*2); j++) {
-                thing.add(i);
-            }
-            if (i+i+1 < splitInput.size()) {
-                for (int j = 0; j < splitInput.get(i+i+1); j++) {
-                    thing.add(-1);
-                    minuses++;
-                }
+        for (Integer integer : disk) {
+            if (integer == -1) {
+                minuses++;
             }
         }
         for (int i = 0; i < minuses; i++) {
@@ -48,41 +54,28 @@ public class Day9 extends Day  {
 
     @Override
     public Object part2() {
-        List<Integer> thing = new ArrayList<>();
-        for (int i = 0; i*2 < splitInput.size(); i++) {
-            for (int j = 0; j < splitInput.get(i*2); j++) {
-                thing.add(i);
-            }
-            if (i+i+1 < splitInput.size()) {
-                for (int j = 0; j < splitInput.get(i+i+1); j++) {
-                    thing.add(-1);
-                }
-            }
-        }
-
-        int current = thing.getLast();
-        int currentCount = 1;
-        for (int i = thing.size() - 1; i >= 0; i--) {
-            if (thing.get(i) == -1) {
-                continue;
-            } else {
-                current = thing.get(i);
-            }
-            if (thing.get(i) == current) {
-                currentCount++;
-            } else {
-                var spot = firstAvailableIndex(thing, currentCount);
-                if (spot != -1) {
-                    for (int j = 0; j < currentCount; j++) {
-                        thing.set(spot + j, current);
-                        thing.set(i + j, -1);
+        var newDisk = new ArrayList<>(disk);
+        for (int i = disk.getLast(); i > 0; i--) {
+            int instances = countInstances(i);
+            int availableIndex = firstAvailableIndex(newDisk, instances);
+            if (availableIndex != -1 && availableIndex < disk.indexOf(i)) {
+                for (int j = 0; j < newDisk.size(); j++) {
+                    if (newDisk.get(j) == i) {
+                        newDisk.set(j, -1);
                     }
                 }
-                currentCount = 1;
+                for (int j = 0; j < instances; j++) {
+                    newDisk.set(availableIndex+j, i);
+                }
             }
         }
-
-        return thing;
+        BigInteger result = BigInteger.valueOf(0);
+        for (int i = 0; i < newDisk.size(); i++) {
+            if (newDisk.get(i) != -1) {
+                result = result.add(BigInteger.valueOf(newDisk.get(i) * i));
+            }
+        }
+        return result;
     }
 
     int lastNonMinusOneIndex(List<Integer> list) {
@@ -92,6 +85,16 @@ public class Day9 extends Day  {
             }
         }
         return -1;
+    }
+
+    int countInstances(int value) {
+        int count = 0;
+        for (Integer integer : disk) {
+            if (integer == value) {
+                count++;
+            }
+        }
+        return count;
     }
 
     static int firstAvailableIndex(List<Integer> list, int size) {
@@ -107,9 +110,5 @@ public class Day9 extends Day  {
             }
         }
         return -1;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(firstAvailableIndex(Arrays.asList(1, 2, 1, -1, 3, 4, -1, -1, 6, 7), 2));
     }
 }
