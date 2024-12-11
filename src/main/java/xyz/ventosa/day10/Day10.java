@@ -33,11 +33,6 @@ public class Day10 extends Day  {
         return pairs.size();
     }
 
-    @Override
-    public Object part2() {
-        return null;
-    }
-
     Set<Point> solve(int x, int y, int current, Set<Point> points) {
         var north = y - 1 >= 0 ? map.get(y - 1).get(x) : -1;
         var south = y + 1 < map.size() ? map.get(y + 1).get(x) : -1;
@@ -62,6 +57,46 @@ public class Day10 extends Day  {
             }
         }
         return points;
+    }
+
+    @Override
+    public Object part2() {
+        int result = 0;
+        for (int x = 0; x < map.getFirst().size(); x++) {
+            for (int y = 0; y < map.size(); y++) {
+                if (map.get(y).get(x) == 0) {
+                    result += solve2(x, y, 0);
+                }
+            }
+        }
+        return result;
+    }
+
+    int solve2(int x, int y, int current) {
+        var north = y - 1 >= 0 ? map.get(y - 1).get(x) : -1;
+        var south = y + 1 < map.size() ? map.get(y + 1).get(x) : -1;
+        var east = x + 1 < map.getFirst().size() ? map.get(y).get(x + 1) : -1;
+        var west = x - 1 >= 0 ? map.get(y).get(x - 1) : -1;
+
+        int toReturn = 0;
+        if (current == 9) {
+            return 1;
+        } else {
+            if (north == current + 1) {
+                toReturn += solve2(x, y - 1, current + 1);
+            }
+            if (south == current + 1) {
+                toReturn += solve2(x, y + 1, current + 1);
+            }
+            if (east == current + 1) {
+                toReturn += solve2(x + 1, y, current + 1);
+            }
+            if (west == current + 1) {
+                toReturn += solve2(x - 1, y, current + 1);
+            }
+        }
+        return toReturn;
+
     }
 
     record Point(int x, int y) { }
