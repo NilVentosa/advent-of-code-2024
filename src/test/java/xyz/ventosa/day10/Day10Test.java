@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class Day10Test {
 
     private static final Object SOLUTION_PART1_TEST = 36;
-    private static final Object SOLUTION_PART1 = null;
+    private static final Object SOLUTION_PART1 = 566;
     private static final Object SOLUTION_PART2_TEST = null;
     private static final Object SOLUTION_PART2 = null;
 
